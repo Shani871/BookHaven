@@ -16,7 +16,7 @@ export default function Home() {
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Discover Your Next
-              <span className="block text-yellow-300">Great Read Shani chauhan</span>
+              <span className="block text-yellow-300">Great Read </span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-red-100 max-w-3xl mx-auto leading-relaxed">
               Explore thousands of books across every genre. From bestsellers to hidden gems, 
