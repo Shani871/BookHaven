@@ -29,7 +29,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 text-2xl font-bold text-red-800 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors">
-            <BookOpen className="h-8 w-8" />
+            <BookOpen className="h-8 w-6" />
             <span>BookHaven</span>
           </Link>
 
