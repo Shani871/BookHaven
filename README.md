@@ -1,4 +1,4 @@
-# 📚 BookHaven – Online Bookstore Landing Page
+# 📚 BookHaven – Online Bookstore 
 
 **BookHaven** is a clean, modern, and fully responsive online bookstore. It showcases featured books, categories, deals, and a newsletter subscription feature — perfect for any book-selling platform.
 
