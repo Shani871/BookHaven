@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { Book, CartItem } from '../types';
+import { useAuth } from './AuthContext';
+import { supabase } from '../lib/supabase';
 
 interface CartState {
   items: CartItem[];
@@ -19,6 +21,7 @@ interface CartContextType extends CartState {
   removeFromCart: (bookId: string) => void;
   updateQuantity: (bookId: string, quantity: number) => void;
   clearCart: () => void;
+  syncCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -92,8 +95,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     total: 0,
     itemCount: 0
   });
+  const { user } = useAuth();
 
+  // Load cart from localStorage or Supabase
   useEffect(() => {
+    if (user) {
+      loadCartFromDatabase();
+    } else {
+      loadCartFromLocalStorage();
+    }
+  }, [user]);
+
+  // Sync cart to database when items change (for authenticated users)
+  useEffect(() => {
+    if (user && state.items.length >= 0) {
+      syncCartToDatabase();
+    } else if (!user) {
+      localStorage.setItem('bookstore-cart', JSON.stringify(state.items));
+    }
+  }, [state.items, user]);
+
+  const loadCartFromLocalStorage = () => {
     const savedCart = localStorage.getItem('bookstore-cart');
     if (savedCart) {
       try {
@@ -103,11 +125,70 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         console.error('Failed to load cart from localStorage:', error);
       }
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    localStorage.setItem('bookstore-cart', JSON.stringify(state.items));
-  }, [state.items]);
+  const loadCartFromDatabase = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('cart_items')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      // Convert database cart items to our cart format
+      const cartItems: CartItem[] = data.map(item => ({
+        book: {
+          id: item.book_id,
+          // We'll need to fetch book details from our books data
+          // For now, we'll try to find it in our static data
+          ...getBookById(item.book_id)
+        } as Book,
+        quantity: item.quantity
+      })).filter(item => item.book.title); // Filter out items where book wasn't found
+
+      dispatch({ type: 'LOAD_CART', payload: cartItems });
+    } catch (error) {
+      console.error('Failed to load cart from database:', error);
+      // Fallback to localStorage
+      loadCartFromLocalStorage();
+    }
+  };
+
+  const syncCartToDatabase = async () => {
+    if (!user) return;
+
+    try {
+      // Clear existing cart items
+      await supabase
+        .from('cart_items')
+        .delete()
+        .eq('user_id', user.id);
+
+      // Insert current cart items
+      if (state.items.length > 0) {
+        const cartData = state.items.map(item => ({
+          user_id: user.id,
+          book_id: item.book.id,
+          quantity: item.quantity
+        }));
+
+        await supabase
+          .from('cart_items')
+          .insert(cartData);
+      }
+    } catch (error) {
+      console.error('Failed to sync cart to database:', error);
+    }
+  };
+
+  const getBookById = (id: string) => {
+    // Import books data dynamically to avoid circular dependency
+    const { books } = require('../data/books');
+    return books.find((book: Book) => book.id === id) || {};
+  };
 
   const addToCart = (book: Book) => {
     dispatch({ type: 'ADD_TO_CART', payload: book });
@@ -125,13 +206,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'CLEAR_CART' });
   };
 
+  const syncCart = () => {
+    if (user) {
+      syncCartToDatabase();
+    }
+  };
+
   return (
     <CartContext.Provider value={{
       ...state,
       addToCart,
       removeFromCart,
       updateQuantity,
-      clearCart
+      clearCart,
+      syncCart
     }}>
       {children}
     </CartContext.Provider>

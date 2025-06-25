@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, BookOpen } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, Mail, Lock, User, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -12,15 +13,53 @@ export default function Register() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      setError('Passwords do not match');
+      setLoading(false);
       return;
     }
-    console.log('Registration attempt:', formData);
-    // Handle registration logic here
+
+    // Validate password strength
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await signUp(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName
+      );
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +68,30 @@ export default function Register() {
       [e.target.name]: e.target.value
     }));
   };
+
+  if (success) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+            <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Account Created Successfully!
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Welcome to BookHaven! You can now sign in to your account.
+            </p>
+            <Link
+              to="/login"
+              className="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200"
+            >
+              Go to Login
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -49,6 +112,13 @@ export default function Register() {
 
         {/* Form */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-2">
+              <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+              <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -66,6 +136,7 @@ export default function Register() {
                     onChange={handleChange}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="First name"
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -83,6 +154,7 @@ export default function Register() {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Last name"
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -102,6 +174,7 @@ export default function Register() {
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter your email"
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -121,15 +194,20 @@ export default function Register() {
                   onChange={handleChange}
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Create a password"
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  disabled={loading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Password must be at least 6 characters long
+              </p>
             </div>
 
             <div>
@@ -147,11 +225,13 @@ export default function Register() {
                   onChange={handleChange}
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Confirm your password"
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  disabled={loading}
                 >
                   {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -165,6 +245,7 @@ export default function Register() {
                 type="checkbox"
                 required
                 className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                disabled={loading}
               />
               <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                 I agree to the{' '}
@@ -180,31 +261,12 @@ export default function Register() {
 
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+              disabled={loading}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Create account
+              {loading ? 'Creating account...' : 'Create account'}
             </button>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">Or sign up with</span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
-                Google
-              </button>
-              <button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
-                Facebook
-              </button>
-            </div>
-          </div>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-300">
