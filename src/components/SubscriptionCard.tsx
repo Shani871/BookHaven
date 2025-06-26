@@ -67,9 +67,9 @@ export default function SubscriptionCard({ product, isActive = false, className 
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 ${isActive ? 'ring-2 ring-red-500' : ''} ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 ${isActive ? 'ring-2 ring-blue-500' : ''} ${className}`}>
       {isActive && (
-        <div className="bg-red-500 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
+        <div className="bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
           Current Plan
         </div>
       )}
@@ -96,8 +96,8 @@ export default function SubscriptionCard({ product, isActive = false, className 
           isActive
             ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             : loading
-            ? 'bg-red-400 text-white cursor-not-allowed'
-            : 'bg-red-600 hover:bg-red-700 text-white'
+            ? 'bg-blue-400 text-white cursor-not-allowed'
+            : 'bg-blue-600 hover:bg-blue-700 text-white'
         }`}
       >
         {loading ? (

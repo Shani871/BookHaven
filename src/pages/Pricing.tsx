@@ -51,12 +51,12 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-red-600 to-red-800 text-white py-20">
+      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Choose Your Plan
           </h1>
-          <p className="text-xl md:text-2xl text-red-100 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
             Get access to premium educational content and enhance your learning journey
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function Pricing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
               <p className="mt-4 text-gray-600 dark:text-gray-300">Loading plans...</p>
             </div>
           ) : (

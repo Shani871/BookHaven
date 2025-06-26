@@ -19,7 +19,7 @@ export default function Cart() {
           </p>
           <Link
             to="/books"
-            className="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Continue Shopping
@@ -39,7 +39,7 @@ export default function Cart() {
           </h1>
           <button
             onClick={clearCart}
-            className="text-red-600 hover:text-red-700 font-medium transition-colors duration-200"
+            className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
           >
             Clear Cart
           </button>
@@ -60,14 +60,14 @@ export default function Cart() {
                   <div className="flex-1">
                     <Link
                       to={`/books/${item.book.id}`}
-                      className="text-lg font-semibold text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                      className="text-lg font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       {item.book.title}
                     </Link>
                     <p className="text-gray-600 dark:text-gray-300 mt-1">
                       by {item.book.author}
                     </p>
-                    <p className="text-red-600 dark:text-red-400 font-semibold mt-2">
+                    <p className="text-blue-600 dark:text-blue-400 font-semibold mt-2">
                       ${item.book.price}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ export default function Cart() {
                     {/* Remove Button */}
                     <button
                       onClick={() => removeFromCart(item.book.id)}
-                      className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -134,13 +134,13 @@ export default function Cart() {
                 </div>
               </div>
               
-              <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold text-lg transition-colors duration-200 mb-4">
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold text-lg transition-colors duration-200 mb-4">
                 Proceed to Checkout
               </button>
               
               <Link
                 to="/books"
-                className="block text-center text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors duration-200"
+                className="block text-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
               >
                 Continue Shopping
               </Link>
