@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Users, Award, Truck } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, Award, Truck, CreditCard } from 'lucide-react';
 import { books } from '../data/books';
 import BookCard from '../components/BookCard';
 
@@ -31,10 +31,10 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                to="/categories"
+                to="/pricing"
                 className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white hover:text-red-700 transition-colors duration-200"
               >
-                Explore Categories
+                View Pricing
               </Link>
             </div>
           </div>
@@ -72,9 +72,9 @@ export default function Home() {
                 description: 'Free shipping on orders over $25 with quick delivery'
               },
               {
-                icon: Users,
-                title: 'Reader Community',
-                description: 'Join thousands of book lovers and share your reviews'
+                icon: CreditCard,
+                title: 'Premium Content',
+                description: 'Access exclusive educational materials and notes'
               }
             ].map((feature, index) => (
               <div key={index} className="text-center group">
@@ -123,22 +123,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
+      {/* Premium Content CTA */}
       <section className="py-16 bg-red-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Stay Updated with New Releases
+            Unlock Premium Educational Content
           </h2>
           <p className="text-xl text-red-100 mb-8">
+            Get access to comprehensive Java notes and exclusive learning materials
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/pricing"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold text-lg hover:bg-gray-100 transition-colors duration-200"
+            >
+              View Plans
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-16 bg-gray-100 dark:bg-gray-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Stay Updated with New Releases
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
             Get notified about new books, exclusive deals, and reading recommendations
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 border border-gray-300"
             />
-            <button className="px-6 py-3 bg-white text-red-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+            <button className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors duration-200">
               Subscribe
             </button>
           </div>

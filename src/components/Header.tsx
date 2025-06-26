@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X, Moon, Sun, BookOpen, User, LogOut } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, Moon, Sun, BookOpen, User, LogOut, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import UserSubscriptionStatus from './UserSubscriptionStatus';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function Header() {
     { name: 'Home', path: '/' },
     { name: 'Books', path: '/books' },
     { name: 'Categories', path: '/categories' },
+    { name: 'Pricing', path: '/pricing' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' }
   ];
@@ -110,13 +112,27 @@ export default function Header() {
                 </button>
 
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2">
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2">
                     <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
                         {user.user_metadata?.first_name} {user.user_metadata?.last_name}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                     </div>
+                    
+                    <div className="px-4 py-2">
+                      <UserSubscriptionStatus />
+                    </div>
+                    
+                    <Link
+                      to="/pricing"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <CreditCard className="h-4 w-4" />
+                      <span>Pricing</span>
+                    </Link>
+                    
                     <Link
                       to="/cart"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -124,6 +140,7 @@ export default function Header() {
                     >
                       My Cart
                     </Link>
+                    
                     <button
                       onClick={handleSignOut}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
@@ -218,6 +235,7 @@ export default function Header() {
                   <p className="text-sm font-medium text-gray-900 dark:text-white mb-2">
                     Welcome, {user.user_metadata?.first_name || user.email?.split('@')[0]}!
                   </p>
+                  <UserSubscriptionStatus />
                   <button
                     onClick={handleSignOut}
                     className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center space-x-2"
