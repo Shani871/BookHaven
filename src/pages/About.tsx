@@ -11,10 +11,10 @@ export default function About() {
 
   const team = [
     {
-      name: 'Sarah Johnson',
+      name: 'Shani ',
       role: 'Founder & CEO',
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400',
-      bio: 'Book lover with 20+ years in publishing'
+      image: 'https://shani-chauhan.netlify.app/assets/1.png',
+      bio: 'Book lover with 2+ years in publishing'
     },
     {
       name: 'Michael Chen',
