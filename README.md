@@ -1,38 +1,39 @@
-# 📚 BookHaven – Online Bookstore 
+# 📚 Book Store
 
-**BookHaven** is a clean, modern, and fully responsive online bookstore. It showcases featured books, categories, deals, and a newsletter subscription feature — perfect for any book-selling platform.
+**Book Store** is a modern and responsive web application for browsing and managing a collection of books. Users can search, view, and explore books by category. The project is ideal for those interested in building e-commerce or educational platforms.
 
----
-
-## 🌟 Features
-
-- ✨ **Modern Landing Page** layout with clean design
-- 📖 **Featured Books Section** with pricing and ratings
-- 📚 **Category Navigation**: Fiction, Mystery, Sci-Fi, and more
-- 🚚 **Fast Delivery & Quality Assurance**
-- 📬 **Newsletter Subscription Form**
-- 🤝 **Reader Community** section
-- 📱 **Responsive Design** (mobile-friendly)
+🌐 **Live Demo**: [Click to visit](https://tiny-haupia-324cc4.netlify.app/)
 
 ---
 
-## 🚀 Live Preview
+## 🚀 Features
 
-👉 _Coming Soon_ or host it using GitHub Pages, Vercel, or Netlify.
-
-
-
-## 🖼️ Sample Content Preview
-
-> **“Discover Your Next Great Read”**  
-Explore thousands of books across every genre — from bestsellers to hidden gems.
-
-#### 📌 Featured Titles
-
-- *The Great Gatsby* – _F. Scott Fitzgerald_
-- *Murder on the Orient Express* – _Agatha Christie_
-- *Sapiens* – _Yuval Noah Harari_
-- *Atomic Habits* – _James Clear_
+- 🔎 **Search Books** by title or author
+- 📚 **View Book Collection** organized by category
+- 🧾 **Add Books** to your personal list or catalog (if implemented)
+- 🛍️ **Shopping Cart** functionality (optional/extendable)
+- 📱 **Responsive Design** for mobile, tablet, and desktop screens
+- ⚡ **Fast UI** built with modern frontend technologies
 
 ---
-https://tiny-haupia-324cc4.netlify.app/
+
+## 🛠️ Tech Stack
+
+| Layer     | Tools Used                        |
+|-----------|-----------------------------------|
+| Frontend  | HTML5, CSS3, JavaScript           |
+| Framework | React (with optional Redux)       |
+| Styling   | CSS (with responsive layout)      |
+| Deployment| Netlify                           |
+
+---
+
+## 📦 Installation
+
+To run this project locally:
+
+```bash
+git clone https://github.com/yourusername/book-store.git
+cd book-store
+npm install
+npm start
