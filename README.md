@@ -33,7 +33,7 @@
 To run this project locally:
 
 ```bash
-git clone https://github.com/yourusername/book-store.git
+git clone https://github.com/Shani871/BookHaven
 cd book-store
 npm install
 npm start
