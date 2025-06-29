@@ -16,6 +16,7 @@ import Register from './pages/Register';
 import BookDetails from './pages/BookDetails';
 import Pricing from './pages/Pricing';
 import Success from './pages/Success';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <Router>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
               <Header />
               <main className="flex-1">
                 <Routes>
@@ -38,6 +39,7 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/pricing" element={<Pricing />} />
                   <Route path="/success" element={<Success />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                 </Routes>
               </main>
               <Footer />

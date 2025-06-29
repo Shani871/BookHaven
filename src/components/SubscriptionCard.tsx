@@ -67,37 +67,37 @@ export default function SubscriptionCard({ product, isActive = false, className 
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 ${isActive ? 'ring-2 ring-blue-500' : ''} ${className}`}>
+    <div className={`bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 ${isActive ? 'ring-2 ring-emerald-500' : ''} ${className}`}>
       {isActive && (
-        <div className="bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
+        <div className="bg-emerald-500 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
           Current Plan
         </div>
       )}
       
-      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
         {product.name}
       </h3>
       
-      <p className="text-gray-600 dark:text-gray-300 mb-4">
+      <p className="text-slate-600 dark:text-slate-300 mb-4">
         {product.description}
       </p>
       
       <div className="mb-6">
-        <span className="text-3xl font-bold text-gray-900 dark:text-white">₹10.00</span>
+        <span className="text-3xl font-bold text-slate-900 dark:text-white">₹10.00</span>
         {product.mode === 'subscription' && (
-          <span className="text-gray-600 dark:text-gray-300">/month</span>
+          <span className="text-slate-600 dark:text-slate-300">/month</span>
         )}
       </div>
 
       <button
         onClick={handleSubscribe}
         disabled={loading || isActive}
-        className={`w-full py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 ${
+        className={`w-full py-3 px-4 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center space-x-2 ${
           isActive
-            ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+            ? 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed'
             : loading
-            ? 'bg-blue-400 text-white cursor-not-allowed'
-            : 'bg-blue-600 hover:bg-blue-700 text-white'
+            ? 'bg-emerald-400 text-white cursor-not-allowed'
+            : 'bg-emerald-600 hover:bg-emerald-700 text-white'
         }`}
       >
         {loading ? (

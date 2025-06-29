@@ -48,7 +48,7 @@ export default function UserSubscriptionStatus() {
 
   if (!subscription || !subscription.price_id) {
     return (
-      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 mb-6">
         <div className="flex items-center space-x-2">
           <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
           <span className="text-yellow-800 dark:text-yellow-200 font-medium">
@@ -63,7 +63,7 @@ export default function UserSubscriptionStatus() {
   const isActive = ['active', 'trialing'].includes(subscription.subscription_status);
 
   return (
-    <div className={`border rounded-lg p-4 mb-6 ${
+    <div className={`border rounded-xl p-4 mb-6 ${
       isActive 
         ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
         : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
