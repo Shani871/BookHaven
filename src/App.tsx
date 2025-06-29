@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,6 +18,8 @@ import BookDetails from './pages/BookDetails';
 import Pricing from './pages/Pricing';
 import Success from './pages/Success';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import UserOrders from './pages/UserOrders';
 
 function App() {
   return (
@@ -39,7 +42,32 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/pricing" element={<Pricing />} />
                   <Route path="/success" element={<Success />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  
+                  {/* Protected Routes */}
+                  <Route 
+                    path="/dashboard" 
+                    element={
+                      <ProtectedRoute requiredRole={['employee', 'admin']}>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/admin" 
+                    element={
+                      <ProtectedRoute requiredRole={['admin']}>
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/orders" 
+                    element={
+                      <ProtectedRoute>
+                        <UserOrders />
+                      </ProtectedRoute>
+                    } 
+                  />
                 </Routes>
               </main>
               <Footer />

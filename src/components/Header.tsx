@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X, Moon, Sun, BookOpen, User, LogOut, CreditCard, Settings } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, Moon, Sun, BookOpen, User, LogOut, CreditCard, Settings, Shield, Package } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import { useRole } from '../hooks/useRole';
 import UserSubscriptionStatus from './UserSubscriptionStatus';
 
 export default function Header() {
@@ -13,6 +14,7 @@ export default function Header() {
   const { itemCount } = useCart();
   const { isDark, toggleTheme } = useTheme();
   const { user, signOut } = useAuth();
+  const { isAdmin, isEmployeeOrAdmin } = useRole();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -124,13 +126,37 @@ export default function Header() {
                       <UserSubscriptionStatus />
                     </div>
                     
+                    {/* Admin Dashboard Link */}
+                    {isAdmin && (
+                      <Link
+                        to="/admin"
+                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Shield className="h-4 w-4" />
+                        <span>Admin Dashboard</span>
+                      </Link>
+                    )}
+                    
+                    {/* Employee Dashboard Link */}
+                    {isEmployeeOrAdmin && (
+                      <Link
+                        to="/dashboard"
+                        className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Settings className="h-4 w-4" />
+                        <span>Dashboard</span>
+                      </Link>
+                    )}
+                    
                     <Link
-                      to="/dashboard"
+                      to="/orders"
                       className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-2"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
-                      <Settings className="h-4 w-4" />
-                      <span>Dashboard</span>
+                      <Package className="h-4 w-4" />
+                      <span>My Orders</span>
                     </Link>
                     
                     <Link
@@ -245,14 +271,38 @@ export default function Header() {
                     Welcome, {user.user_metadata?.first_name || user.email?.split('@')[0]}!
                   </p>
                   <UserSubscriptionStatus />
+                  
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="block px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg flex items-center space-x-2 mb-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Shield className="h-4 w-4" />
+                      <span>Admin Dashboard</span>
+                    </Link>
+                  )}
+                  
+                  {isEmployeeOrAdmin && (
+                    <Link
+                      to="/dashboard"
+                      className="block px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg flex items-center space-x-2 mb-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Settings className="h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  )}
+                  
                   <Link
-                    to="/dashboard"
+                    to="/orders"
                     className="block px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg flex items-center space-x-2 mb-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Settings className="h-4 w-4" />
-                    <span>Dashboard</span>
+                    <Package className="h-4 w-4" />
+                    <span>My Orders</span>
                   </Link>
+                  
                   <button
                     onClick={handleSignOut}
                     className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg flex items-center space-x-2"
